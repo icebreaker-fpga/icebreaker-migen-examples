@@ -315,7 +315,14 @@ if __name__ == "__main__":
         # Yes that means that the pins at the edge of the board come first
         # and the pins further away from the edge second
         plat.add_extension([
-            ("debug", 0, Pins("3 48 46 44 4 2 47 45"))
+            ("debug", 0, Pins("PMOD1A:4")),
+            ("debug", 1, Pins("PMOD1A:5")),
+            ("debug", 2, Pins("PMOD1A:6")),
+            ("debug", 3, Pins("PMOD1A:7")),
+            ("debug", 4, Pins("PMOD1A:0")),
+            ("debug", 5, Pins("PMOD1A:1")),
+            ("debug", 6, Pins("PMOD1A:2")),
+            ("debug", 7, Pins("PMOD1A:3")),
         ])
 
         plat.build(_LoopbackTest(plat))
