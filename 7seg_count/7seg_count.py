@@ -14,7 +14,7 @@ class SevenSegCounter(Module):
         display_state = Signal(3)
 
         # Segment pins are active-low so invert here
-        self.comb += [segment_pins[i].eq(~segments[i]) for i in range(segment_count)]
+        self.comb += segment_pins.eq(~segments)
         self.comb += ones.eq(counter[21:25])
         self.comb += tens.eq(counter[25:30])
         self.comb += display_state.eq(counter[2:5])
@@ -54,19 +54,13 @@ class SevenSegCounter(Module):
         })
 
 sevenseg_pmod = [
-     ("segments", 0, Pins("PMOD1A:0")),
-     ("segments", 1, Pins("PMOD1A:1")),
-     ("segments", 2, Pins("PMOD1A:2")),
-     ("segments", 3, Pins("PMOD1A:3")),
-     ("segments", 4, Pins("PMOD1A:4")),
-     ("segments", 5, Pins("PMOD1A:5")),
-     ("segments", 6, Pins("PMOD1A:6")),
+     ("segments", 0, Pins(" ".join(["PMOD1A:" + str(i) for i in range(7)]))),
      ("digit_sel", 0, Pins("PMOD1A:7")),
 ]
 
 plat = icebreaker.Platform()
 plat.add_extension(sevenseg_pmod)
-segments = [plat.request("segments") for i in range(7)]
+segments = plat.request("segments")
 digit_sel = plat.request("digit_sel")
 my_counter = SevenSegCounter(segments, digit_sel)
 plat.build(my_counter)
